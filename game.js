@@ -1,5 +1,5 @@
 //var ws = new WebSocket('ws://localhost:8080', 'echo-protocol');
-var ws = new WebSocket('ws://daedalus-appserveur.rhcloud.com:8000', 'echo-protocol');
+var ws = new WebSocket('wss://daedalus-appserveur.rhcloud.com:8443', 'echo-protocol');
 
 if (sessionStorage.tempsMusique != null) {
 var musique = new Audio("sons/welcomeTheme.wav");
