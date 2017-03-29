@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<meta charset="utf-8">
+		<title>Path Of Daedalus</title>
+		<link rel="shortcut icon" type="image/png" href="images/icon.png"/>
+		<link rel="stylesheet" href="styleIndex.css">
+		<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Monofett" />
+	</head>
+	<body>
+		<button class="volume" onClick="changerSon()" ><image id="imageSon" src="images/son.png" alt="son" height="48" width="48"></button>
+		<div class="titre">
+			<img src="images/titre.png" alt="Le titre" height="138" width="846">
+		</div>
+		<div class="blocCentre">
+			<input type="text" name="pseudo" id="pseudo" onkeypress="if (event.keyCode==13){envoyer()}" autofocus /><br/>
+			<button class="confirmation" onClick="envoyer()" >Envoyer</button>
+		</div>
+	</body>
+	
+	<script>
+		var mute = false;
+		sessionStorage.mute = mute;
+		var changerSon = function() {
+			if (mute == true) {
+				mute = false;
+				musique.volume = 1;
+				document.getElementById("imageSon").src = "images/son.png";
+			} else {
+				mute = true;
+				musique.volume = 0;
+				document.getElementById("imageSon").src = "images/mute.png";
+			}
+			sessionStorage.mute = mute;
+		}
+		var musique = new Audio("sons/welcomeTheme.wav");
+		musique.play();
+		var envoyer = function() {
+			if (document.getElementById("pseudo").value == "" || document.getElementById("pseudo").value == null || document.getElementById("pseudo").value.length > 20 || document.getElementById("pseudo").value.charAt(0) == " ") {
+				document.getElementById("pseudo").value='';
+				window.alert("Veuillez entrer un pseudonyme convenable");
+			} else {
+				if(typeof(Storage) !== "undefined") {
+					sessionStorage.pseudo = document.getElementById("pseudo").value;
+					sessionStorage.tempsMusique = musique.currentTime;
+					window.location = './jeu.html'
+				} else {
+					window.alert("Veuillez mettre à jour votre navigateur");
+				}
+			}
+		}
+	</script>
+</html>

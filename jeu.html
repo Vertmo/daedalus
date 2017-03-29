@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<meta charset="utf-8">
+		<title>Path Of Daedalus</title>
+		<link rel="shortcut icon" type="image/png" href="images/icon.png"/>
+		<link rel="stylesheet" href="style.css">
+	</head>
+	<body>
+		<button class="volume" onClick="changerSon()" ><image id="imageSon" src="images/son.png" alt="son" height="48" width="48"></button>
+		<header>
+			<img class="titre" src="images/titre.png"> 
+		</header>
+		<section>
+			<aside>
+			
+				<div class="chatbox">
+					<div class="affichage">
+						<h1>The Chatbox</h1>
+						<div id ="contenuChat">
+						</div>
+					</div>
+					<input class="entreeChat" type="text" name="messageChat" id="messageChat" onkeypress="if (event.keyCode==13){envMsgChat()}"/>
+					<button class="envoyer" onClick="envMsgChat()">Envoyer</button>
+				</div>
+				
+				<ul class="pseudos">
+					<li id = "pseudo1">Joueur non connecté</li>
+					<li id = "pseudo2">Joueur non connecté</li>
+					<li id = "pseudo3">Joueur non connecté</li>
+					<li id = "pseudo4">Joueur non connecté</li>
+				</ul>
+				
+				<div class="selectionTaille">
+					<label for="taille">Taille du labyrinthe :</label><br />
+					<select name="taille" id="taille">
+						<option value ="9">Test (9*9)</option>
+						<option value="25">Petit (25*25)</option>
+						<option value="55">Normal (55*55)</option>
+						<option value="95">Grand (95*95)</option>
+						<option value="125">Tres grand (125*125)</option>
+					</select>
+				</div>
+				
+				<button class="commencer" onclick="commencer()">Commencer la partie</button>
+				
+			</aside>
+			
+				<canvas id="jeu" width="580px" height="580px" style="border:1px solid black;">Votre navigateur ne supporte pas les canvas :(</canvas>
+			
+		</section>
+		<script src="game.js"></script>
+	</body>
+</html>
