@@ -1,4 +1,4 @@
-//var ws = new WebSocket('ws://localhost:1337', 'echo-protocol');
+//var ws = new WebSocket('ws://localhost:8080', 'echo-protocol');
 var ws = new WebSocket('ws://daedalus-appserveur.rhcloud.com:8000', 'echo-protocol');
 
 if (sessionStorage.tempsMusique != null) {
