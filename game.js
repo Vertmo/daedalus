@@ -1,5 +1,5 @@
-//var ws = new WebSocket('wss://localhost:8080', 'echo-protocol');
-var ws = new WebSocket('ws://daedalus-appserveur.rhcloud.com:8000', 'echo-protocol');
+//var ws = new WebSocket('ws://localhost:8000', 'echo-protocol');
+var ws = new WebSocket('wss://daedalus-appserveur.rhcloud.com:8443', 'echo-protocol');
 
 if (sessionStorage.tempsMusique != null) {
 var musique = new Audio("sons/welcomeTheme.wav");
@@ -27,7 +27,7 @@ var changerSon = function() {
 	}
 	sessionStorage.mute = mute;
 }
-		
+
 var id = 0;
 
 var couleurs = ["green","orange","red","blue"];
@@ -225,7 +225,7 @@ window.addEventListener('resize', function(event){
 		ctx.fillStyle = "#FFFFFF";
 		ctx.fillRect(0, 0, canvas.width, canvas.height);
 	}
-}); 
+});
 
 
 var debut = function () {
@@ -307,7 +307,7 @@ var update = function (modifier) {
 	position.x = joueurs.x[joueurs.id.indexOf(id)];
 	position.y = joueurs.y[joueurs.id.indexOf(id)];
 	envoyerMessage(position);
-	
+
 	if (map[(joueurs.x[joueurs.id.indexOf(id)] - (joueurs.x[joueurs.id.indexOf(id)]%tailleCase))/tailleCase][(joueurs.y[joueurs.id.indexOf(id)] - (joueurs.y[joueurs.id.indexOf(id)]%tailleCase))/tailleCase] == 7) {
 		var message = {type: "victoire"};
 		message.id = id;
@@ -352,7 +352,7 @@ var rendu = function () {
                     ctx.fillStyle = "#E8FF3C";
 					ctx.fillRect(21,21,120,120);
                     break;
-                     
+
                 default :
 					if (solReady) {
 						ctx.drawImage(solImage, 21, 21);
@@ -363,9 +363,9 @@ var rendu = function () {
         }
     ctx.translate(-tailleCase*(x), tailleCase);
     }
-	
+
     ctx.restore();
-     
+
 	for (i = 0; i < joueurs.id.length; i++) {
 		if (joueurReadyBas[i]) {
 			if (i == joueurs.id.indexOf(id)) {
@@ -401,14 +401,14 @@ var rendu = function () {
 			}
 		}
 	}
-	
+
 	var temps = (Date.now() - tempsDébut)/1000;
-	
+
 	var secondes = Math.floor(temps).toString().substr(Math.floor(temps).toString().length - 1);
 	var dixSecondes = Math.floor((temps/10)%6).toString().substr(Math.floor((temps/10)%6).toString().length - 1);
 	var minutes = Math.floor(temps/60).toString().substr(Math.floor(temps/60).toString().length - 1);
 	var dixMinutes = Math.floor(temps/600).toString().substr(Math.floor(temps/600).toString().length - 1);
-	
+
 	var tempsAffichage = dixMinutes + minutes + ":" + dixSecondes + secondes;
 	ctx.font="45px Helvetica";
 	ctx.strokeStyle = 'black';
@@ -422,12 +422,12 @@ var main = function () {
 	if (partieEnCours == 1) {
 		var now = Date.now();
 		var delta = now - then;
-	
+
 		update(delta / 1000);
 		rendu();
-	
+
 		then = now;
-	
+
 		requestAnimationFrame(main);
 	}
 };
@@ -436,9 +436,9 @@ var commencer = function () {
 	var message = {
 	type: "commencer"};
 	try {
-	message.taille = parseInt(document.getElementById("taille").value);
+		message.taille = parseInt(document.getElementById("taille").value);
 	} catch(e) {
-	window.alert(e);
+		window.alert(e);
 	}
 	envoyerMessage(message);
 };
@@ -472,14 +472,14 @@ ws.addEventListener("message", function(e) {
 			}
 			envoyerMessage(message);
 			break;
-			
+
 			case "commencer":
 				taille = message.taille;
 				map = message.map;
 				debut();
 				main();
 				break;
-		
+
 		case "message":
 			switch(message.text) {
 				case "Désolé, mais il n'y a pas de place sur le serveur":
@@ -492,7 +492,7 @@ ws.addEventListener("message", function(e) {
 					break;
 			}
 			break;
-		
+
 		case "pseudos":
 			for (i = 0; i < joueurs.id.length; i++) {
 				if(joueurs.id[i] != message.id[i]) {
@@ -505,7 +505,7 @@ ws.addEventListener("message", function(e) {
 					joueurs.pseudo[i] = message.pseudo[i];
 				}
 			}
-			
+
 			if(message.pseudo[0] == "indéfini") {
 			document.getElementById("pseudo1").innerHTML = "Joueur non connecté";
 			document.getElementById("pseudo1").style.color = "#000000";
@@ -535,7 +535,7 @@ ws.addEventListener("message", function(e) {
 			document.getElementById("pseudo4").style.color = "blue";
 			}
 			break;
-		
+
 		case "coordonnees":
 			if (joueurs.id[joueurs.id.indexOf(message.id)] != 0) {
 				joueurs.x[joueurs.id.indexOf(message.id)] = message.x;
@@ -543,13 +543,13 @@ ws.addEventListener("message", function(e) {
 				joueurs.direction[joueurs.id.indexOf(message.id)] = message.direction;
 			}
 			break;
-			
+
 		case "messageChat":
 			if (message.origine = "joueur") {
 				document.getElementById("contenuChat").innerHTML = document.getElementById("contenuChat").innerHTML + "<p> <span style='color: " + couleurs[joueurs.id.indexOf(message.id)] +"'>" + joueurs.pseudo[joueurs.id.indexOf(message.id)] + "</span> : " + message.text + "</p>";
 			}
 			break;
-			
+
 		case "victoire":
 			ctx.fillStyle = "#FFFFFF";
 			ctx.fillRect(0, 0, canvas.width, canvas.height);
